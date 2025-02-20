@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-12">
+    <div class="top-right-button-container text-zero mb-3 d-flex">
+      <div dropdown class="d-inline-block dropleft">
+        <button *ngIf="true" type="button" dropdownToggle=""
+          class="btn btn-outline-primary userName d-flex align-item-center" aria-haspopup="true">
+          <span class="truncate">{{this.langService.languageShorthand | uppercase}}</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right mt-3" *dropdownMenu role="menu">
+          <a class="dropdown-item c-pointer" *ngFor="let item of languages"
+            (click)="onLanguageChange(item)">{{item.label | titlecase}}</a>
+        </div>
+      </div>
+      <div class="user d-inline-block ml-2" dropdown>
+        <button *ngIf="helper.user_details" type="button" dropdownToggle=""
+          class="btn btn-outline-primary userName d-flex align-item-center" aria-haspopup="true">
+          <img class="lazyload userimg" (error)="$event.target.src = DEFAULT_USER_PROFILE"
+            [src]="helper.user_details.picture ? (IMAGE_URL + helper.user_details.picture) : DEFAULT_USER_PROFILE"
+            [alt]="helper.user_details.first_name">
+          <span class="truncate d-none d-xs-block">{{helper.user_details.first_name}}</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right mt-3" *dropdownMenu role="menu">
+          <a class="dropdown-item c-pointer" routerLink="/app/profile">{{'label-title.account' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/driver">{{'label-title.driver' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/runningreq">{{'label-title.running-requests' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/history">{{'label-title.completed-requests' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/earning">{{'label-title.earning' | translate}} </a>
+          <div class="divider dropdown-divider"></div>
+          <a class="dropdown-item c-pointer " (click)="signOut()">{{'label-title.sign-out' | translate}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="separator mb-5"></div>
+  </div>
+</div>

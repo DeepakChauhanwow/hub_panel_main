@@ -1,0 +1,46 @@
+<ng-template #template>
+    <modal-container role="dialog" tabindex="-1" class="modal fade show" style="display: block;" aria-modal="true">
+        <div role="document" class="modal-dialog modal-right">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left">
+                        {{'heading-title.history' | translate }}
+                        <span>: {{vehicle_datails.name}} ({{vehicle_datails.model}})</span>
+                    </h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3" *ngIf="history?.logs">
+                        <ol class="order-step">
+                            <li class="border-transparent pb-3" *ngFor="let log of history?.logs">
+                                <span class="font-weight-bold">{{_helper.VEHICLE_HISTORY_TYPE_STRING[log.type] |
+                                    translate}}
+                                </span>
+                                <p class="mb-0">{{'label-title.by' | translate}}
+                                    {{_helper.TRIP_STATUS_TYPE_VALUE_STRING[log.by] | translate}}&nbsp;
+                                    <span *ngIf="log.by">:&nbsp;</span>{{log.username}}
+                                </p>
+                                <p class="mb-0"
+                                    *ngIf="log.type == _helper.VEHICLE_HISTORY_TYPE.ASSIGNED || log.type == _helper.VEHICLE_HISTORY_TYPE.UNASSIGNED">
+                                    <span *ngIf="log.type == _helper.VEHICLE_HISTORY_TYPE.ASSIGNED">{{'label-title.to' |
+                                        translate}}</span>
+                                    <span
+                                        *ngIf="log.type == _helper.VEHICLE_HISTORY_TYPE.UNASSIGNED">{{'label-title.from'
+                                        | translate}}</span>
+                                    {{log.meta_data?.name}}
+                                </p>
+                                <p style="color: gray;font-size: 10px;">{{log.at |
+                                    date:_helper.DATE_FORMAT.D_MMM_H_MM_A}}</p>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center" *ngIf="!history || !history?.logs || history?.logs.length == 0">
+                        {{'label-title.no-record-found' | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal-container>
+</ng-template>

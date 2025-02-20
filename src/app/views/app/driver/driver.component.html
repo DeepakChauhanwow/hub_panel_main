@@ -1,0 +1,72 @@
+<div>
+    <div class="row">
+        <div class="col-12">
+            <app-heading></app-heading>
+        </div>
+    </div>
+</div>
+
+<div class="mt-5">
+    <div *ngIf="viewType === 'grid'" class="row">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-4" *ngFor="let user of driver_data">
+            <div class="card d-flex flex-row" style="height: 100%;">
+                <a class="d-flex d-1280-none">
+                    <img (error)="$event.target.src = DEFAULT_IMAGE"
+                        [src]="user.picture ? IMAGE_URL + user.picture : DEFAULT_IMAGE"
+                        class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center " alt="picture"></a>
+                <div class="d-flex flex-grow-1 min-width-zero">
+                    <div
+                        class="card-body pl-0 pl-1280-2 align-self-center d-flex flex-row justify-content-between min-width-zero" [class.ev-tag-list]="user.vehicle_type == helper.VEHICLE_TYPE.EV">
+                        <div class="min-width-zero">
+                            <a href="javascript:void(0);">
+                                <p class="list-item-heading mb-1 mr-3 truncate">{{user.first_name}} {{user.last_name}}
+                                    ({{user.unique_id}})</p>
+                                <p class=" list-item-heading mb-1 truncate ">{{user.country_phone_code}} {{user.phone}}
+                                </p>
+                                <p class="mb-2 text-muted text-small truncate">{{user.email}}</p>
+                                <p class="mb-0">{{user.vehicle_detail.name}} - {{user.vehicle_detail.model}} - {{user.vehicle_detail.plate_no}} ({{user.vehicle_detail.unique_id}})</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="viewType === 'list'" class="row">
+        <div class="col-12 list">
+            <div [ngClass]="{'card d-flex flex-row mb-3': true}" *ngFor="let user of driver_data"
+                [contextMenu]="basicMenu" [contextMenuSubject]="user">
+                <a class="d-flex align-items-center">
+                    <img (error)="$event.target.src = helper.DEFAULT_IMAGE.USER_SQUARE" class="list-thumbnail responsive border-0 card-img-left" [src]="user.picture ? helper.image_url + user.picture : helper.DEFAULT_IMAGE.USER_SQUARE" [alt]="user.title"></a>
+                <div class="pl-2 d-flex flex-grow-1 min-width-zero">
+                    <div
+                        class="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
+                        <a class="w-30 w-sm-100">
+                            <p class="list-item-heading mb-1 truncate">{{user.first_name}} {{user.last_name}}
+                                ({{user.unique_id}})</p>
+                        </a>
+                        <p class="mb-1 pl-1 pr-1 text-muted text-small w-20 w-sm-100">{{user.country_phone_code}}
+                            {{user.phone}}</p>
+                        <p class="mb-1 pl-1 pr-1 text-muted text-small w-30 w-sm-100">{{user.email}}</p>
+                        <p class="mb-1 pl-1 pr-1 text-muted text-small w-15 w-sm-100">{{user.wallet}}
+                            {{user.wallet_currency_code}}</p>
+                        <p class="mb-1 pl-1 pr-1 text-muted text-small w-10 w-sm-100">{{user.city}}</p>
+                        <div class="w-20 w-sm-100 d-flex align-items-center">
+                            <button *ngIf="user.service_type == null" id="button-basic" type="button"
+                                class=" btn btn-outline-primary btn-xs text-nowrap"
+                                (click)="openModalTypeSelect(user)">
+                                {{'button-title.assign-vehicle' | translate }} </button>
+                            <button *ngIf="user.service_type != null" id="button-basic" type="button"
+                                class="btn btn-outline-primary btn-xs text-nowrap"
+                                (click)="openModalTypeSelect(user)">
+                                {{'button-title.remove-vehicle' | translate }} </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center align-items-center h-50vh" *ngIf="driver_data?.length==0">
+    <p class="clr-primary">{{'label-title.no-record-found' | translate}}</p>
+</div>

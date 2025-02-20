@@ -1,0 +1,37 @@
+.userName {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.profile-pic {
+    width: 40px;
+    border-radius: 30px;
+}
+
+.userimg {
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    margin-right: 6px;
+}
+
+@media screen and (max-width:767px) {
+
+    .userName {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 8px 14px !important;
+    }
+    .userimg {
+        height: 20px;
+        width: 20px;
+    }
+}
+@media screen and (max-width:419px) {
+    .userimg {
+        height: 21px;
+        width: 21px;
+        margin: 0!important;
+    }
+    
+}

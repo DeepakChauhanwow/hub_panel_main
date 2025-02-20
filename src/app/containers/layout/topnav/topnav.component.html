@@ -1,0 +1,86 @@
+<nav class="navbar fixed-top">
+  <div class="d-flex align-items-center navbar-left">    
+    <div id="toggleMenu" class="d-none">
+      <a href="javascript:;" class="menu-button d-none d-md-block">
+        <svg class="main" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 17">
+          <rect x="0.48" y="0.5" width="7" height="1" />
+          <rect x="0.48" y="7.5" width="7" height="1" />
+          <rect x="0.48" y="15.5" width="7" height="1" />
+        </svg> {{" "}}
+        <svg class="sub" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 17">
+          <rect x="1.56" y="0.5" width="16" height="1" />
+          <rect x="1.56" y="7.5" width="16" height="1" />
+          <rect x="1.56" y="15.5" width="16" height="1" />
+        </svg>
+      </a>
+  
+      <a href="javascript:;" class="menu-button-mobile d-xs-block d-sm-block d-md-none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
+          <rect x="0.5" y="0.5" width="25" height="1" />
+          <rect x="0.5" y="7.5" width="25" height="1" />
+          <rect x="0.5" y="15.5" width="25" height="1" />
+        </svg>
+      </a>
+    </div>     
+    <div dropdown class="btn-group lang">
+      <button *ngIf="true" type="button" dropdownToggle=""
+        class="language-button dropdown-toggle btn btn-light btn-sm" aria-haspopup="true">
+        {{this.langService.languageShorthand | uppercase}} <span class="caret"></span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-left" *dropdownMenu role="menu">
+        <a class="dropdown-item c-pointer" *ngFor="let item of languages"
+          (click)="onLanguageChange(item)">{{item.label | titlecase}}</a>
+      </div>
+    </div>
+  </div>
+
+  <a class="navbar-logo" [routerLink]="adminRoot" >
+    <span class="logo d-none d-sm-block">
+      <img [src]="IMAGE_URL + 'web_images/user_logo.png'" alt="logo" *ngIf="!logoClr">
+      <img [src]="IMAGE_URL + 'web_images/dark_website_logo.png'" alt="logo" *ngIf="logoClr">
+       </span>
+       <span class="logo-mobile d-block d-sm-none" >
+        <img [src]="IMAGE_URL + 'web_images/logo.png'" alt="logo" *ngIf="!logoClr">
+        <img [src]="IMAGE_URL + 'web_images/dark_header_logo.png'" alt="logo" *ngIf="logoClr">
+      </span>
+  </a>
+
+  <div class="navbar-right">
+    <div class="d-flex align-items-center justify-content-end">
+      <div class="header-icons d-inline-block align-middle">
+        <div class="d-none d-md-inline-block align-text-bottom mr-1">
+          <div class="custom-control custom-switch" tooltip="{{'label-title.dark-mode' | translate}}" placement="left">
+            <input type="checkbox" class="custom-control-input" id="darkModeSwitch" [checked]="isDarkModeActive"
+              (change)="onDarkModeChange($event)">
+            <label class="custom-control-label" for="darkModeSwitch"></label>
+          </div>
+        </div>
+  
+        <button class="header-icon btn btn-empty d-none d-sm-inline-block" type="button" id="fullScreenButton"
+          (click)="fullScreenClick()">
+          <i *ngIf="!isFullScreen" class="simple-icon-size-fullscreen"></i>
+          <i *ngIf="isFullScreen" class="simple-icon-size-actual"></i>
+        </button>
+      </div>
+  
+      <div class="user d-inline-block" dropdown>
+        <button *ngIf="helper.user_details" type="button" dropdownToggle=""
+            class="btn btn-outline-primary userName d-flex align-items-center" aria-haspopup="true">
+            <img class="lazyload userimg" (error)="$event.target.src = DEFAULT_USER_PROFILE"
+              [src]="helper.user_details.picture ? (IMAGE_URL + helper.user_details.picture) : DEFAULT_USER_PROFILE"
+              [alt]="helper.user_details.first_name">
+            <span class="truncate d-none d-xs-block">{{helper.user_details.first_name}}</span>
+          </button>
+        <div class="dropdown-menu dropdown-menu-right" *dropdownMenu role="menu">
+          <a class="dropdown-item c-pointer" routerLink="/app/profile">{{'label-title.account' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/driver">{{'label-title.driver' | translate}}</a>
+          <a class="dropdown-item c-pointer" routerLink="/app/manage-vehicle">{{'label-title.manage-vehicle' | translate}}</a>
+          <div class="divider dropdown-divider"></div>
+          <a class="dropdown-item c-pointer " (click)="signOut()">{{'label-title.sign-out' | translate}}</a>
+        </div>
+    </div>
+   
+    </div>
+  </div>
+
+</nav>
