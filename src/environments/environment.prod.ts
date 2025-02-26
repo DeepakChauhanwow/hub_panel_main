@@ -14,7 +14,7 @@ export const environment = {
   // PAYMENTS_API_URL: 'http://13.203.141.238:5002',
   // HISTORY_API_URL: 'http://13.203.141.238:5001',
 
-  API_URL: 'https://api.womenonwheel.com/admin',
+  API_URL: 'https://api.womenonwheel.com',
   IMAGE_URL: 'https://api.womenonwheel.com/',
   BASE_URL: 'https://api.womenonwheel.com/',
   SOCKET_URL: 'https://api.womenonwheel.com/',
