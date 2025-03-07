@@ -1,0 +1,55 @@
+name: Deploy Hub Panel to Wow Server
+
+on:
+  push:
+    branches:
+      - main  # Sirf 'main' branch pe push hone par chalega
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+
+      - name: Deploy Hub Panel on Server
+        run: |
+          ssh ubuntu@$SERVER_IP << 'EOF'
+            cd /var/www/html/wow/hub_panel_main
+
+            # Pull latest code
+            echo "Pulling latest code for hub_panel_main"
+            git fetch origin main
+            git reset --hard origin/main
+            git pull origin main
+
+            # Install dependencies
+            echo "Installing dependencies for hub_panel_main"
+            npm install --legacy-peer-deps 
+
+            # Check if it's a frontend repo (by checking angular.json or src/app)
+            if [ -f "angular.json" ] || [ -d "src/app" ]; then
+              echo "Building frontend for hub_panel_main"
+              npm run build-prod
+            else
+              echo "Skipping build (probably backend)"
+            fi
+
+            # Restart hub PM2 process
+            echo "Restarting hub in PM2"
+            pm2 restart hub
+
+          EOF
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
